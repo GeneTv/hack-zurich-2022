@@ -9,7 +9,7 @@
       </div>
 
       <hr>
-      <p @click="goToNextQuestion(true)">I know what I want</p>
+      <p @click="goToNextQuestion(true)" class="onboarding-skip-button">I know what I want</p>
       </div>
       <h2 v-else>Onboarding complete!</h2>
     </div>
@@ -60,12 +60,16 @@ body {
   border: none;
   border-radius: 18px;
   color: #fff;
+  cursor: pointer;
   font-weight: 500;
   padding: 10px;
 }
 
-.answer-button:hover{
+.onboarding-skip-button {
+  color: #333;
   cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: underline;
 }
-
 </style>
