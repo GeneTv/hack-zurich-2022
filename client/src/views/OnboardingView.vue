@@ -56,12 +56,13 @@ body {
   margin: 18px;
 }
 .answer-button {
-  background-color: #C27DFC;
+  background-color: rgb(0, 72, 255);
   border: none;
-  border-radius: 24px;
+  border-radius: 18px;
   color: #fff;
+  cursor: pointer;
   font-weight: 500;
-  padding: 8px;
+  padding: 10px;
 }
 
 .onboarding-skip-button {
