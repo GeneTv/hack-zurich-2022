@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import ResultsView from '../views/ResultsView.vue'
 import OnboardingView from '../views/OnboardingView.vue'
+import handler from './handler'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,11 +18,18 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/flow1',
+      path: '/onboarding',
       name: 'onboarding',
       component: OnboardingView
+    },
+    {
+      path: '/:_(.*)*',
+      name: 'none',
+      redirect: '/'
     }
   ]
 })
+
+router.beforeEach(handler)
 
 export default router

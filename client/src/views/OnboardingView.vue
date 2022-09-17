@@ -1,19 +1,21 @@
 <template>
   <div class="page-wrapper">
     <div class="container">
-      <div class="onboardin-popover" v-if="isInOnboarding">
-      <h3 class="question">{{ currentQuestion.title }}</h3>
-      <p v-if="currentQuestion.description.length > 0">{{ currentQuestion.description }}</p>
-      <div class="onboarding-answers">
-        <button class="answer-button" v-for="answer in currentQuestion.answers" @click="selectAnswer(answer.id)">{{ answer.text }}</button>
+      <div class="onboardin-popover" v-if="isOnboarding">
+        <h3 class="question">{{ question }}</h3>
+        <p class="description" v-if="description?.length > 0">{{ description }}</p>
+        <div class="onboarding-answers">
+          <button class="answer-button" v-for="answer in answers" @click="submitResponse(answer.id)">{{ answer.text }}</button>
+        </div>
+
+        <p @click="submitResponse(null)" class="onboarding-skip-button">I know what I want</p>
       </div>
 
-      <hr>
-      <p @click="goToNextQuestion(true)" class="onboarding-skip-button">I know what I want</p>
+      <div v-else>
+        <h2>You're all set!</h2>
+        <p>You will be redirected shortly.</p>
       </div>
-      <h2 v-else>Onboarding complete!</h2>
     </div>
-    
   </div>
 </template>
 
@@ -21,23 +23,25 @@
 import { mapActions, mapState } from 'pinia';
 import { useOnboardingStore } from '../stores/onboarding';
 
+// User should not be able to open this page while not in onboarding
+
 export default {
   computed: {
-    ...mapState(useOnboardingStore, { isInOnboarding: 'isInOnboarding', currentQuestion: 'currentQuestion' })
+    ...mapState(useOnboardingStore, { answers: 'answers', description: 'description', isOnboarding: 'isOnboarding', question: 'question' }),
   },
   methods: {
-    ...mapActions(useOnboardingStore, { goToNextQuestion: 'goToNextQuestion' }),
-    selectAnswer(answerId) {
-      alert('user selected ' + answerId);
-      this.goToNextQuestion();
-    }
-  }
+    ...mapActions(useOnboardingStore, { submitResponse: 'submitResponse' }),
+  },
 };
 </script>
 
-<style>
-body {
-  background-color: #EAEBED;
+<style scoped>
+.page-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .container {
@@ -46,14 +50,11 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 
-.question {
-  margin-bottom: 10px;
-}
-
 .onboarding-answers {
   display: flex;
   gap: 8px;
-  margin: 18px;
+  justify-content: space-evenly;
+  padding: 26px 0 18px;
 }
 .answer-button {
   background-color: rgb(0, 72, 255);
@@ -63,6 +64,10 @@ body {
   cursor: pointer;
   font-weight: 500;
   padding: 10px;
+}
+
+.description {
+  font-size: 15px;
 }
 
 .onboarding-skip-button {

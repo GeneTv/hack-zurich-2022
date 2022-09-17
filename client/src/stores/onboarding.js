@@ -1,51 +1,36 @@
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
+import axios from 'axios';
+import router from '@/router'
 
 export const useOnboardingStore = defineStore('onboarding', () => {
-  const currentQuestionIndex = ref(0);
-  const questions = ref([
-    {
-      title: 'Hello user!',
-      description: 'To determine what projects may fit for you, we are going to ask some questions.',
-      answers: [
-        {
-          id: 'ea360017-bb64-4a12-8c3c-afc202a8ba9b',
-          text: 'Let\'s go!',
-        }
-      ],
-    },
 
-    {
-      title: 'How is your mood?',
-      description: '',
-      answers: [
-        {
-          id: 'b8bd3598-051c-444a-a9da-918b14661e6b',
-          text: 'Super hyped',
-        },
-        {
-          id: '8ed9afd7-64a3-4282-8248-e9f4aec57686',
-          text: 'Happy',
-        },
-        {
-          id: 'd1d46a46-3533-4fc2-81c0-bb5e839d53c9',
-          text: 'Sad',
-        },
-        {
-          id: '013c126d-6547-4806-b2f8-279fc2b624f4',
-          text: 'Suicidal',
-        },
-      ],
-    },
-  ])
+  const isOnboarding = ref(true);
 
-  function goToNextQuestion(skip = false) {
-    currentQuestionIndex.value += skip ? -(currentQuestionIndex.value + 1) : 1;
+  const question = ref('You will be asked some questions');
+  const description = ref('Please answer some questions to help us match you with the suitable programs.');
+  const answers = ref([
+    {
+      type: 1,
+      id: 'e5767121-cb60-4cd1-b4e5-480859b95b80',
+      text: 'Let\'s start'
+    }
+  ]);
+
+  const submitResponse = async (answerId) => {
+    console.debug('Submitting', answerId)
+    try {
+      const newQuestion = (await axios.get('https://f69a-212-126-165-37.eu.ngrok.io/question/')).data;
+      description.value = newQuestion.description;
+      question.value = newQuestion.question;
+      answers.value = newQuestion.answers;
+      isOnboarding.value = newQuestion.onboarding;
+    } catch(e) {
+      console.error('oboarding.js error: ', e);
+      isOnboarding.value = false
+      setTimeout(() => router.push('/'), 1500);
+    }
   }
-  
-  const isInOnboarding = computed(() => currentQuestionIndex.value < questions.value.length && currentQuestionIndex.value !== -1);
-  const currentQuestion = computed(() => questions.value[currentQuestionIndex.value] || null)
 
-
-  return { currentQuestion, goToNextQuestion, isInOnboarding };
+  return { answers, description, isOnboarding, question, submitResponse };
 });

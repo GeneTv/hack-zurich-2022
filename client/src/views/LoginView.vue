@@ -2,15 +2,19 @@
   <div class="page-wrapper">
     <div class="login-form">
       <div class="login-form__title-container">
-        <h2 class="login-form__title">Hello Hacker!</h2>
-        <p class="login-form__subtitle">The app requires you to log in to linkedin to continue.</p>
+        <h2 class="login-form__title">Hello Volunteer!</h2>
+        <p class="login-form__subtitle">Please log in to continue. </p>
       </div>
       
 
       <div class="form-controls">
-        <button @click="initLinkedinOauthFlow" class="linkedin-login">
+
+        <input type="text" v-model="username">
+        <input type="text" v-model="age">
+
+        <button @click="authenticateUser" class="linkedin-login">
           <img src="@/assets/icons/linkedin_colored.png" alt="LinkedIn logo" class="linkedin-login__logo" />
-          <span class="linkedin-login__text">Connect to LinkedIn</span>
+          <span class="linkedin-login__text">Sign in</span>
         </button>
       </div>
     </div>
@@ -18,22 +22,21 @@
 </template>
 
 <script setup>
-const initLinkedinOauthFlow = () => {
-  console.log('Linkedin flow');
+import axios from 'axios';
+import { ref } from '@vue/reactivity'
+
+const username = ref('');
+const age = ref(0);
+
+const authenticateUser = async () => {
+  if (username.value.length === 0) return;
+
+  const auth = await axios.get('http://googlecloud.com/login');
+  console.debug('[LOGIN] Logged in as', username);
 };
 </script>
 
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: #EAEBED;
-}
-
+<style scoped>
 .page-wrapper {
   align-items: center;
   display: flex;
