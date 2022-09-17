@@ -5,10 +5,12 @@
         <h3 class="question">{{ question }}</h3>
         <p class="description" v-if="description?.length > 0">{{ description }}</p>
         <div class="onboarding-answers">
-          <button class="answer-button" v-for="answer in answers" @click="submitResponse(answer.id)">{{ answer.text }}</button>
+          <button class="answer-button" v-for="answer in answers" @click="selectResponse(answer.id)">{{ answer.text }}</button>
         </div>
 
-        <p @click="submitResponse(null)" class="onboarding-skip-button">I know what I want</p>
+        <p @click="selectResponse(null)" class="onboarding-skip-button">I know what I want</p>
+
+        <button @click="submitResponse">Submit</button>
       </div>
 
       <div v-else>
@@ -30,7 +32,7 @@ export default {
     ...mapState(useOnboardingStore, { answers: 'answers', description: 'description', isOnboarding: 'isOnboarding', question: 'question' }),
   },
   methods: {
-    ...mapActions(useOnboardingStore, { submitResponse: 'submitResponse' }),
+    ...mapActions(useOnboardingStore, { selectResponse: 'selectResponse', submitResponse: 'submitResponse' }),
   },
 };
 </script>

@@ -34,7 +34,7 @@
           matchRating: 5,
           description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, nam nulla aliquid illum veritatis. Contact me via: name@gmail.com',
           skills: ['tech', 'english']
-        },{
+        }, {
           title: 'Funny Farming',
           matchRating: 4,
           description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, nam nulla aliquid illum veritatis.',
