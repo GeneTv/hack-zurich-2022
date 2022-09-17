@@ -1,5 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://34.65.246.242:3306/HackZurich
+    url: jdbc:mysql://34.65.246.242:3306/HackZurich?useSSL=false
     username: root
     password: ?6dED[J4_v@EZFZI
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+    generate-ddl: true
+    show-sql: true
