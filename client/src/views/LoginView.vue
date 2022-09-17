@@ -3,14 +3,14 @@
     <div class="login-form">
       <div class="login-form__title-container">
         <h2 class="login-form__title">Hello Hacker!</h2>
-        <p class="login-form__subtitle">The app requires you to log in to Spotify to continue.</p>
+        <p class="login-form__subtitle">The app requires you to log in to linkedin to continue.</p>
       </div>
       
 
       <div class="form-controls">
-        <button @click="initSpotifyOauthFlow" class="spotify-login">
-          <img src="@/assets/spotify_logo_colored.png" alt="Spotify logo" class="spotify-login__logo" />
-          <span class="spotify-login__text">Connect to Spotify</span>
+        <button @click="initLinkedinOauthFlow" class="linkedin-login">
+          <img src="@/assets/icons/linkedin_colored.png" alt="LinkedIn logo" class="linkedin-login__logo" />
+          <span class="linkedin-login__text">Connect to LinkedIn</span>
         </button>
       </div>
     </div>
@@ -18,8 +18,8 @@
 </template>
 
 <script setup>
-const initSpotifyOauthFlow = () => {
-  console.log('Spotify flow');
+const initLinkedinOauthFlow = () => {
+  console.log('Linkedin flow');
 };
 </script>
 
@@ -31,7 +31,7 @@ const initSpotifyOauthFlow = () => {
 }
 
 body {
-  background-color: #fbfbfb;
+  background-color: #EAEBED;
 }
 
 .page-wrapper {
@@ -47,6 +47,7 @@ body {
   background-color: #fff;
   border-radius: 2px;
   /* box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1); */
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -68,7 +69,7 @@ body {
   font-size: 14px;
 }
 
-.spotify-login {
+.linkedin-login {
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -79,12 +80,12 @@ body {
   padding: 12px;
 }
 
-.spotify-login__logo {
+.linkedin-login__logo {
   height: 20px;
   width: 20px;
 }
 
-.spotify-login__text {
+.linkedin-login__text {
   color: #474747;
   font-size: 14px;
   line-height: 20px;
