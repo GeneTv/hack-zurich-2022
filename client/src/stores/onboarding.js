@@ -62,19 +62,16 @@ export const useOnboardingStore = defineStore('onboarding', () => {
 
   let providedAnswers = [];
   const selectResponse = (answerContext) => {
+    if(answerContext === null || type.value === 3) return providedAnswers = answerContext;
 
     if ([1, 2].includes(type.value) && !providedAnswers.includes(answerContext)) {
       providedAnswers.push(answerContext);
-      if (type.value === 1 && providedAnswers.length > 1) {
-        providedAnswers.shift();
-      }
+
+      // If the question is limited to 1 answer, remove the previous answer if available.
+      if (type.value === 1 && providedAnswers.length > 1) providedAnswers.shift();
 
     } else if ([1, 2].includes(type.value) && providedAnswers.includes(answerContext)) {
       providedAnswers = providedAnswers.filter( entry => entry !== answerContext);
-    }
-
-    if(type === 3) {
-      providedAnswers = answerContext;
     }
 
     console.log('New evaluated answer', providedAnswers);

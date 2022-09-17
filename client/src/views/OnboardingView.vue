@@ -6,6 +6,7 @@
         <p class="description" v-if="description?.length > 0">{{ description }}</p>
         <div class="onboarding-answers">
           <button class="answer-button" v-for="answer in answers" @click="selectResponse(answer.id)">{{ answer.text }}</button>
+          <input type="text" v-if="type === 3" placeholder="Your text">
         </div>
 
         <p @click="selectResponse(null)" class="onboarding-skip-button">I know what I want</p>
