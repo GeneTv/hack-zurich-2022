@@ -2,16 +2,20 @@
   <div class="page-wrapper">
     <div class="container">
       <div class="onboardin-popover" v-if="isOnboarding">
-        <h3 class="question">{{ question }}</h3>
+        <h3 class="question">{{ title }}</h3>
         <p class="description" v-if="description?.length > 0">{{ description }}</p>
         <div class="onboarding-answers">
-          <button class="answer-button" v-for="answer in answers" @click="selectResponse(answer.id)">{{ answer.text }}</button>
-          <input type="text" v-if="type === 3" placeholder="Your text">
+          <button class="answer-button" v-for="answer in answers" @click="selectResponse(answer.id)" :class="{ '--selected': providedAnswers.includes(answer.id) }">{{ answer.text }}</button>
+          <input type="text" v-if="questionType === 3" placeholder="Your text" />
         </div>
 
-        <p @click="selectResponse(null)" class="onboarding-skip-button">I know what I want</p>
+        <div class="onboarding-controls">
+          <button @click="submitResponse" class="continue-button">Next</button>
+          <p @click="selectResponse(null)" class="onboarding-skip-button">I know what I want, skip</p>
 
-        <button @click="submitResponse">Submit</button>
+        </div>
+
+
       </div>
 
       <div v-else>
@@ -27,10 +31,9 @@ import { mapActions, mapState } from 'pinia';
 import { useOnboardingStore } from '../stores/onboarding';
 
 // User should not be able to open this page while not in onboarding
-
 export default {
   computed: {
-    ...mapState(useOnboardingStore, { answers: 'answers', description: 'description', isOnboarding: 'isOnboarding', question: 'question' }),
+    ...mapState(useOnboardingStore, { answers: 'answers', description: 'description', isOnboarding: 'isOnboarding', providedAnswers: 'providedAnswers', title: 'question', questionType: 'type' }),
   },
   methods: {
     ...mapActions(useOnboardingStore, { selectResponse: 'selectResponse', submitResponse: 'submitResponse' }),
@@ -60,24 +63,44 @@ export default {
   padding: 26px 0 18px;
 }
 .answer-button {
-  background-color: rgb(0, 72, 255);
-  border: none;
+  border: 2px solid rgb(0, 72, 255);
   border-radius: 18px;
-  color: #fff;
+  color: rgb(0, 72, 255);
   cursor: pointer;
   font-weight: 500;
   padding: 10px;
+}
+
+.answer-button.--selected {
+  background-color: rgb(0, 72, 255);
+  color: #fff;
 }
 
 .description {
   font-size: 15px;
 }
 
+.onboarding-controls {
+  display: flex;
+  gap: 22px;
+}
+
+.continue-button {
+  background-color: rgb(0, 72, 255);;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  padding: 12px 24px;
+}
+
 .onboarding-skip-button {
+  align-self: center;
   color: #333;
   cursor: pointer;
   font-size: 14px;
   text-align: center;
   text-decoration: underline;
 }
+
 </style>

@@ -3,7 +3,7 @@
     <div class="login-form">
       <div class="login-form__title-container">
         <h2 class="login-form__title">Hello Volunteer!</h2>
-        <p class="login-form__subtitle">Please log in to continue. </p>
+        <p class="login-form__subtitle">Please log in to continue.</p>
       </div>
       
 
