@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import router from '@/router'
 
+const isSelectInput = (type) => [1, 2].includes(type);
 
 let currentFakeQuestion = -1;
 const fakeQuestions = [
@@ -49,43 +50,37 @@ const fakeQuestions = [
 export const useOnboardingStore = defineStore('onboarding', () => {
   const isOnboarding = ref(true);
 
+  const questionId = 0;
+  const type = ref(1); // 1 SC, 2 MP, 3 Freetext
   const question = ref('Onboarding Test');
   const description = ref('Please answer some questions to help us match you with the suitable programs.');
-  const type = ref(1); // 1 SC, 2 MP, 3 Freetext
-  const answers = ref([
-    {
-      type: 1,
-      id: 'e5767121-cb60-4cd1-b4e5-480859b95b80',
-      text: 'Let\'s start'
-    }
-  ]);
+  const answers = ref([{ type: 1, id: 0, text: 'Let\'s start' }]);
+  const providedAnswers = ref([]);
 
-  let providedAnswers = [];
   const selectResponse = (answerContext) => {
-    if(answerContext === null || type.value === 3) return providedAnswers = answerContext;
+    if(answerContext === null || type.value === 3) return providedAnswers.value = answerContext;
 
-    if ([1, 2].includes(type.value) && !providedAnswers.includes(answerContext)) {
-      providedAnswers.push(answerContext);
+    if (isSelectInput(type.value) && !providedAnswers.value.includes(answerContext)) {
+      providedAnswers.value.push(answerContext);
 
       // If the question is limited to 1 answer, remove the previous answer if available.
-      if (type.value === 1 && providedAnswers.length > 1) providedAnswers.shift();
+      if (type.value === 1 && providedAnswers.value.length > 1) providedAnswers.value.shift();
 
-    } else if ([1, 2].includes(type.value) && providedAnswers.includes(answerContext)) {
-      providedAnswers = providedAnswers.filter( entry => entry !== answerContext);
+    } else if (isSelectInput(type.value) && providedAnswers.value.includes(answerContext)) {
+      providedAnswers.value = providedAnswers.value.filter( entry => entry !== answerContext);
     }
 
-    console.log('New evaluated answer', providedAnswers);
+    console.log('New evaluated answer', providedAnswers.value);
   }
 
   const submitResponse = async () => {
-    console.debug('Submitting', providedAnswers, 'for type', type.value)
+    console.debug('Submitting', providedAnswers.value, 'for type', type.value)
     try {
-      // const newQuestion = (await axios.get('https://f69a-212-126-165-37.eu.ngrok.io/question/')).data;
+      // const { isOnboarding } = (await axios.get('https://f69a-212-126-165-37.eu.ngrok.io/question/')).data;
       // description.value = newQuestion.description;
       // question.value = newQuestion.question;
       // answers.value = newQuestion.answers;
       // isOnboarding.value = newQuestion.onboarding;
-
 
       // Fake the data
       currentFakeQuestion += 1;
@@ -94,17 +89,16 @@ export const useOnboardingStore = defineStore('onboarding', () => {
       description.value = newQuestion.description;
       question.value = newQuestion.title;
       answers.value = newQuestion.answers;
-      type.value = newQuestion.type;
-
-      providedAnswers = []
+      type.value = newQuestion.type;      
 
     } catch(e) {
-      console.error('oboarding.js error: ', e);
-      isOnboarding.value = false
+      console.error('[ONBOARDING STORE]', e);
+      isOnboarding.value = false;
     }
 
+    providedAnswers.value = [];
     if(!isOnboarding) setTimeout(() => router.push('/'), 1500);
   }
 
-  return { answers, description, isOnboarding, question, selectResponse, submitResponse };
+  return { answers, description, isOnboarding, providedAnswers, question, selectResponse, submitResponse, type };
 });

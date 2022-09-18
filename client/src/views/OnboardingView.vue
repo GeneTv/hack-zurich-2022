@@ -2,11 +2,11 @@
   <div class="page-wrapper">
     <div class="container">
       <div class="onboardin-popover" v-if="isOnboarding">
-        <h3 class="question">{{ question }}</h3>
+        <h3 class="question">{{ title }}</h3>
         <p class="description" v-if="description?.length > 0">{{ description }}</p>
         <div class="onboarding-answers">
-          <button class="answer-button" v-for="answer in answers" @click="selectResponse(answer.id)">{{ answer.text }}</button>
-          <input type="text" v-if="type === 3" placeholder="Your text">
+          <button class="answer-button" v-for="answer in answers" @click="selectResponse(answer.id)" :class="{ '--selected': providedAnswers.includes(answer.id) }">{{ answer.text }}</button>
+          <input type="text" v-if="questionType === 3" placeholder="Your text" />
         </div>
 
         <p @click="selectResponse(null)" class="onboarding-skip-button">I know what I want</p>
@@ -27,10 +27,9 @@ import { mapActions, mapState } from 'pinia';
 import { useOnboardingStore } from '../stores/onboarding';
 
 // User should not be able to open this page while not in onboarding
-
 export default {
   computed: {
-    ...mapState(useOnboardingStore, { answers: 'answers', description: 'description', isOnboarding: 'isOnboarding', question: 'question' }),
+    ...mapState(useOnboardingStore, { answers: 'answers', description: 'description', isOnboarding: 'isOnboarding', providedAnswers: 'providedAnswers', title: 'question', questionType: 'type' }),
   },
   methods: {
     ...mapActions(useOnboardingStore, { selectResponse: 'selectResponse', submitResponse: 'submitResponse' }),
@@ -67,6 +66,10 @@ export default {
   cursor: pointer;
   font-weight: 500;
   padding: 10px;
+}
+
+.answer-button.--selected {
+  background-color: red;
 }
 
 .description {
