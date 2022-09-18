@@ -13,4 +13,5 @@ public class QuestionDTO {
     private int questionID;
     private String answer;
     private int userId;
+    private boolean isOnboarding;
 }
