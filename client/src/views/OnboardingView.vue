@@ -9,9 +9,13 @@
           <input type="text" v-if="questionType === 3" placeholder="Your text" />
         </div>
 
-        <p @click="selectResponse(null)" class="onboarding-skip-button">I know what I want</p>
+        <div class="onboarding-controls">
+          <button @click="submitResponse" class="continue-button">Next</button>
+          <p @click="selectResponse(null)" class="onboarding-skip-button">I know what I want, skip</p>
 
-        <button @click="submitResponse">Submit</button>
+        </div>
+
+
       </div>
 
       <div v-else>
@@ -59,28 +63,44 @@ export default {
   padding: 26px 0 18px;
 }
 .answer-button {
-  background-color: rgb(0, 72, 255);
-  border: none;
+  border: 2px solid rgb(0, 72, 255);
   border-radius: 18px;
-  color: #fff;
+  color: rgb(0, 72, 255);
   cursor: pointer;
   font-weight: 500;
   padding: 10px;
 }
 
 .answer-button.--selected {
-  background-color: red;
+  background-color: rgb(0, 72, 255);
+  color: #fff;
 }
 
 .description {
   font-size: 15px;
 }
 
+.onboarding-controls {
+  display: flex;
+  gap: 22px;
+}
+
+.continue-button {
+  background-color: rgb(0, 72, 255);;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  padding: 12px 24px;
+}
+
 .onboarding-skip-button {
+  align-self: center;
   color: #333;
   cursor: pointer;
   font-size: 14px;
   text-align: center;
   text-decoration: underline;
 }
+
 </style>
