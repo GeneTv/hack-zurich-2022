@@ -28,6 +28,12 @@ public class User implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "skills")
+    private String skills;
+
     @Nullable
     @Column(name = "isOnboarding")
     private boolean isOnboarding;

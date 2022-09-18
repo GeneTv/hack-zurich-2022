@@ -25,6 +25,7 @@ public class UserController {
 
         User user = User.builder()
                         .name(incUser.getName())
+                        .age(incUser.getAge())
                         .isOnboarding(true)
                         .build();
 
