@@ -5,7 +5,7 @@ spring:
     password: ?6dED[J4_v@EZFZI
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL57Dialect
     generate-ddl: true
     show-sql: true
